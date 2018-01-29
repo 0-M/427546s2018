@@ -1,0 +1,216 @@
+
+
+ACM Transactions on Graphics (TOG): 
+	https://dl-acm-org.libproxy.uml.edu/citation.cfm?id=J778
+
+@article{Simo-Serra:2018:MSA:3151031.3132703,
+ author = {Simo-Serra, Edgar and Iizuka, Satoshi and Ishikawa, Hiroshi},
+ title = {Mastering Sketching: Adversarial Augmentation for Structured Prediction},
+ journal = {ACM Trans. Graph.},
+ issue_date = {January 2018},
+ volume = {37},
+ number = {1},
+ month = jan,
+ year = {2018},
+ issn = {0730-0301},
+ pages = {11:1--11:13},
+ articleno = {11},
+ numpages = {13},
+ url = {http://doi.acm.org/10.1145/3132703},
+ doi = {10.1145/3132703},
+ acmid = {3132703},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Sketch simplification, convolutional neural network, pencil drawing generation},
+} 
+
+
+@article{Fish:2014:MSF:2601097.2601185,
+ author = {Fish, Noa and Averkiou, Melinos and van Kaick, Oliver and Sorkine-Hornung, Olga and Cohen-Or, Daniel and Mitra, Niloy J.},
+ title = {Meta-representation of Shape Families},
+ journal = {ACM Trans. Graph.},
+ issue_date = {July 2014},
+ volume = {33},
+ number = {4},
+ month = jul,
+ year = {2014},
+ issn = {0730-0301},
+ pages = {34:1--34:11},
+ articleno = {34},
+ numpages = {11},
+ url = {http://doi.acm.org/10.1145/2601097.2601185},
+ doi = {10.1145/2601097.2601185},
+ acmid = {2601185},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {consensus relations, model editing, shape collections},
+} 
+
+
+
+IEEE Transactions on Visualization and Computer Graphics (TVCG): 
+	https://www.computer.org/csdl/trans/tg/index.html
+
+@ARTICLE{7862917,
+author={B. Wang and K. Mueller},
+journal={IEEE Transactions on Visualization and Computer Graphics},
+title={The Subspace Voyager: Exploring High-Dimensional Data along a Continuum of Salient 3D Subspaces},
+year={2018},
+volume={24},
+number={2},
+pages={1204-1222},
+keywords={Cognition;Layout;Navigation;Space exploration;Three-dimensional displays;Two dimensional displays;Visualization;High-dimensional data;PCA;ant colony optimization1;subspace navigation;trackball},
+doi={10.1109/TVCG.2017.2672987},
+ISSN={1077-2626},
+month={Feb},}
+
+@ARTICLE{4359484,
+author={J. Park and A. Kak},
+journal={IEEE Transactions on Visualization and Computer Graphics},
+title={3D Modeling of Optically Challenging Objects},
+year={2008},
+volume={14},
+number={2},
+pages={246-262},
+keywords={object recognition;optical images;solid modelling;surface fitting;3D modeling;erroneous range data;ground-truth data;multipeak range imaging;multiple range measurement;optically challenging object surface;spurious reflection;Range data;feature representation;geometric modeling;image analysis;virtual reality},
+doi={10.1109/TVCG.2007.1069},
+ISSN={1077-2626},
+month={March},
+}
+
+
+IEEE Computer Graphics and Applications (CG&A): 
+	http://ieeexplore.ieee.org.libproxy.uml.edu/xpl/RecentIssue.jsp?punumber=38
+
+@ARTICLE{8103324,
+author={V. M. Manghisi and M. Fiorentino and M. Gattullo and A. Boccaccio and V. Bevilacqua and G. L. Cascella and M. Dassisti and A. E. Uva},
+journal={IEEE Computer Graphics and Applications},
+title={Experiencing the Sights, Smells, Sounds, and Climate of Southern Italy in VR},
+year={2017},
+volume={37},
+number={6},
+pages={19-25},
+keywords={computer graphics;travel industry;virtual reality;Southern Italy;VR;interactive computer graphics;tourism agencies;tourism appeal;tourism marketing;virtual reality;Man-machine systems;Meteorology;Mobile communication;Olfactory;Three-dimensional displays;User interfaces;Videos;Virtual environments;Visualization;computer graphics;gesture controls;human-machine interface;multisensory virtual environment;natural user interfaces},
+doi={10.1109/MCG.2017.4031064},
+ISSN={0272-1716},
+month={November},}
+
+@ARTICLE{1274058,
+author={K. Salisbury and F. Conti and F. Barbagli},
+journal={IEEE Computer Graphics and Applications},
+title={Haptic rendering: introductory concepts},
+year={2004},
+volume={24},
+number={2},
+pages={24-32},
+keywords={haptic interfaces;human computer interaction;rendering (computer graphics);virtual reality;haptic rendering;haptic system;haptic-rendering algorithm;human machine interaction;perception;simulated environment;touch interaction;virtual haptic object;Auditory displays;Computational modeling;Computer displays;Computer graphics;Computer simulation;Engines;Feedback;Haptic interfaces;Humans;Robots;Algorithms;Computer Peripherals;Computer Simulation;Computing Methodologies;Feedback;Human Engineering;Information Storage and Retrieval;Man-Machine Systems;Models, Biological;Stress, Mechanical;Telemedicine;Touch;User-Computer Interface},
+doi={10.1109/MCG.2004.1274058},
+ISSN={0272-1716},
+month={March},}
+
+
+
+Computers and Graphics (C&G):
+	https://www-sciencedirect-com.libproxy.uml.edu/science/journal/00978493
+
+@article{NEUKOM201814,
+title = "Real-time GIS-based snow cover approximation and rendering for large terrains",
+journal = "Computers & Graphics",
+volume = "71",
+pages = "14 - 22",
+year = "2018",
+issn = "0097-8493",
+doi = "https://doi.org/10.1016/j.cag.2017.10.003",
+url = "http://www.sciencedirect.com/science/article/pii/S0097849317301693",
+author = "Benjamin Neukom and Stefan Müller Arisona and Simon Schubiger",
+keywords = "Real-time visualization, Snow approximation, GIS, GPGPU, Game engine"
+}
+
+@article{LU201618,
+title = "3D B-spline curve construction from orthogonal views with self-overlapping projection segments",
+journal = "Computers & Graphics",
+volume = "54",
+pages = "18 - 27",
+year = "2016",
+note = "Special Issue on CAD/Graphics 2015",
+issn = "0097-8493",
+doi = "https://doi.org/10.1016/j.cag.2015.07.010",
+url = "http://www.sciencedirect.com/science/article/pii/S0097849315001132",
+author = "Yang Lu and Jun-Hai Yong and Kan-Le Shi and Hai-Chuan Song and Tian-Yu Ye",
+keywords = "B-spline curve, Orthogonal view, Reconstruction, Self-overlapping, Energy function minimization"
+}
+
+
+
+Computer Graphics Forum (CGF):
+	http://onlinelibrary.wiley.com.libproxy.uml.edu/journal/10.1111/(ISSN)1467-8659
+
+@article {CGF:CGF12991,
+author = {Gao, Lin and Chen, Shu-Yu and Lai, Yu-Kun and Xia, Shihong},
+title = {Data-Driven Shape Interpolation and Morphing Editing},
+journal = {Computer Graphics Forum},
+volume = {36},
+number = {8},
+issn = {1467-8659},
+url = {http://dx.doi.org/10.1111/cgf.12991},
+doi = {10.1111/cgf.12991},
+pages = {19--31},
+keywords = {data-driven, shape interpolation, shape space, morphing editing, I.3.5 [Computer Graphics]: Computational Geometry and Object Modelling—object representations},
+year = {2017},
+}
+
+﻿@article {CGF:CGF12252,
+author = {Jönsson, Daniel and Sundén, Erik and Ynnerman, Anders and Ropinski, Timo},
+title = {A Survey of Volumetric Illumination Techniques for Interactive Volume Rendering},
+journal = {Computer Graphics Forum},
+volume = {33},
+number = {1},
+issn = {1467-8659},
+url = {http://dx.doi.org/10.1111/cgf.12252},
+doi = {10.1111/cgf.12252},
+pages = {27--51},
+keywords = {volume rendering, rendering, volume visualization, visualization, illumination rendering, rendering, I.3.3 [Computer Graphics]: Picture/Image GenerationVolume Rendering},
+year = {2014},
+}
+
+
+
+Visual Computer:
+	https://link-springer-com.libproxy.uml.edu/journal/371
+
+@Article{Ahmad2018,
+author="Ahmad, Sahar
+and Khan, Muhammad Faisal",
+title="Multimodal non-rigid image registration based on elastodynamics",
+journal="The Visual Computer",
+year="2018",
+month="Jan",
+day="01",
+volume="34",
+number="1",
+pages="21--27",
+abstract="In this paper, we present a new multimodal image registration technique established on elastodynamics notion. The main idea behind this concept is the progression of waves on an elastic body as soon as it is disturbed from its initial rest state. We propose to solve the multimodal registration problem by modeling the non-linear deformations as elastic waves and iteratively solving the elastodynamics wave equation to estimate the transformation. The inertial force in elastodynamics model is computed as the gradient of mutual information which considers the statistical relationship between the intensities of the images acquired using different imaging modalities. We tested our method on T1--T2 weighted MR brain image pairs and MR-CT brain image pairs. The proposed registration technique was compared against a variant of demons method proposed for multimodal images. The registration results were analyzed by examining the overlay images and by computing the normalized mutual information. The qualitative and quantitative analysis proved that our proposed method registers the images better than the compared method.",
+issn="1432-2315",
+doi="10.1007/s00371-016-1307-z",
+url="https://doi.org/10.1007/s00371-016-1307-z"
+}
+
+@Article{Du2013,
+author="Du, Hui
+and Jin, Xiaogang",
+title="Object cloning using constrained mean value interpolation",
+journal="The Visual Computer",
+year="2013",
+month="Mar",
+day="01",
+volume="29",
+number="3",
+pages="217--229",
+abstract="We present an object-cloning algorithm using constrained mean value interpolation over images. Different from previous methods, we first define the guidance vector field as a weighted gradient of the source and destination images in the gradient domain, which produces a similar Laplace equation to that of the original Poisson method but with different boundary conditions. Then, we use mean value coordinates to solve the new Laplace equation approximately instead of solving a large linear system. The cloned result matches well with the destination image on the luma and preserves the chroma of the source object as much as possible. Our cloned results are visually pleasing without smudging and discoloration artifacts. We also extend our approach to video object cloning. Experimental results demonstrate the effectiveness of our object cloning algorithm.",
+issn="1432-2315",
+doi="10.1007/s00371-012-0722-z",
+url="https://doi.org/10.1007/s00371-012-0722-z"
+}
+
+
+
