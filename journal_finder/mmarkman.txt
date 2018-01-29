@@ -1,5 +1,3 @@
-
-
 ACM Transactions on Graphics (TOG): 
 	https://dl-acm-org.libproxy.uml.edu/citation.cfm?id=J778
 
