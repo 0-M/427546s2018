@@ -1,0 +1,244 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Computer Graphics HW 1</title>    
+<link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+
+<body>
+    <div id="topContainer">
+
+        <div id="selectorBox" class="coordinateBox" >
+            <select id="primitiveSelector" onchange="setupInputs()">
+                <option value="line">Line</option>
+                <option value="ellipse">Ellipse</option>
+                <option value="circle">Circle</option>
+<!--                 <option value="polygon">Polygon</option>
+                <option value="polyline">Polyline</option> -->
+                <option value="rectangle">Rectangle</option>
+            </select>
+        </div>
+        <div id="xbox" class="coordinateBox">
+            <h2>X</h2>
+            <form>
+                <div class="inputRow">X1: <input id="x1" /></div>
+                <div class="inputRow">X2: <input id="x2" /></div>
+            </form>
+        </div>        
+        <div id="ybox" class="coordinateBox">
+            <h2>Y</h2>
+            <form>
+                <div class="inputRow">Y1: <input id="y1" /></div>
+                <div class="inputRow">Y2: <input id="y2" /></div>
+            </form>
+            <button onclick="drawBtn()">DRAW!</button>
+        </div>
+
+    </div>
+    <canvas style="width: 100%; height:80%"></canvas>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+<script>
+
+    var numPoints = 2;
+    var showingCenter = false;
+    var showingxrad = false;
+    var showingyrad = false;
+    var showingAddPointBtn = false;
+
+    function setupInputs() {
+        var primitive = $("#primitiveSelector").val();
+        if (primitive === "line") {
+            showXRadius(false);
+            showYRadius(false);
+            showCenter(false);            
+            showAddPointButton(false);                
+            createPointInputs(2, null);
+        } else if (primitive === "circle") {
+            createPointInputs(0, null);
+            showAddPointButton(false);                
+            showCenter(true);
+            showXRadius(true);
+            showYRadius(false);
+        } else if (primitive === "ellipse") {
+            createPointInputs(0, null);
+            showAddPointButton(false);                
+            showCenter(true);
+            showXRadius(true);            
+            showYRadius(true);        
+        } else if (primitive === "rectangle") {
+            showXRadius(false);
+            showYRadius(false);
+            showCenter(false);            
+            createPointInputs(2, null);
+            showAddPointButton(false);
+        }else if (primitive === "polygon") {
+            showXRadius(false);
+            showYRadius(false);
+            showCenter(false);            
+            createPointInputs(2, null);
+            showAddPointButton(true);
+        }else if (primitive === "polyline") {
+            showXRadius(false);
+            showYRadius(false);
+            showCenter(false);            
+            createPointInputs(2, null);
+            showAddPointButton(true);
+        }
+    };
+
+    function createPointInputs(pointsToDraw, pointToAdd) {
+        pointsToDraw = parseInt(pointsToDraw);
+        var diff = pointsToDraw - numPoints;
+        // numPoints = pointsToDraw;
+        if (diff > 0) {
+            // need more points
+            while (numPoints < pointsToDraw) {
+                // populate it?
+                var xString = "";
+                var yString = "";                
+                if (pointToAdd) {
+                    xString = pointToAdd[0].toString();
+                    yString = pointToAdd[1].toString();
+                }
+                
+                // make a new point
+                let pointNumber = (numPoints+1).toString();
+                var newXPoint = "<div class='inputRow'>X"+ pointNumber +": <input id='X" + pointNumber + "' />" + xString + "</div>";
+                var newYPoint = "<div class='inputRow'>Y"+ pointNumber +": <input id='Y" + pointNumber + "' />" + yString + "</div>";
+                
+                $("#xbox form").append(newXPoint);
+                $("#ybox form").append(newYPoint);
+                numPoints++;
+            }
+        } else if (diff < 0) {
+            // remove some points
+            while (numPoints > pointsToDraw) {
+                $("#xbox form div.inputRow:last").remove();
+                $("#ybox form div.inputRow:last").remove();
+                numPoints--;
+            }
+        }
+    };
+    
+    function showXRadius(showIt) {
+        if (showIt && !showingxrad) {
+            var newXPoint = "<div class='inputXRadius'>Radius: <input id='Xradius' /></div>";
+            $("#xbox form").append(newXPoint);
+        } else if (!showIt) {
+            $("#xbox form div.inputXRadius").remove();
+        }
+        showingxrad = showIt;
+    };
+    function showYRadius(showIt) {
+        if (showIt && !showingyrad) {
+            var newYPoint = "<div class='inputYRadius'>Y Radius: <input id='Yradius' /></div>";
+            $("#ybox form").append(newYPoint);
+        } else if (!showIt) {
+            $("#ybox form div.inputYRadius").remove();
+        }
+        showingyrad = showIt;        
+    };
+
+    function showCenter(showIt) {
+        if (showIt && !showingCenter) {
+            var newXPoint = "<div class='inputCenter'>Center X: <input id='centerX' /></div>";
+            var newYPoint = "<div class='inputCenter'>Center Y: <input id='centerY' /></div>";
+            $("#xbox form").append(newXPoint);
+            $("#ybox form").append(newYPoint);
+        } else if (!showIt) {
+            $("#xbox form div.inputCenter").remove();
+            $("#ybox form div.inputCenter").remove();
+        }
+        showingCenter = showIt;
+    }
+
+    function showAddPointButton(showIt) {
+        if (showIt && !showingAddPointBtn) {
+            var newBtn = "<button id='addpoint'>ADD POINT!</button>";
+            $("#xbox").append(newBtn);
+        } else if (!showIt) {
+            $("#addpoint").remove();
+        }
+        showingAddPointBtn = showIt;
+    }
+
+    function drawBtn() {
+        var primitive = $("#primitiveSelector").val();
+
+        if (primitive === "line") {
+            var points = getLineInputs();
+            drawLine(points);
+            console.log("drawing points: ");
+            console.log(points);
+        }
+    }
+
+    function getLineInputs() {
+
+        var x1 = $("#x1").val();
+        var x2 = $("#x2").val();
+        var y1 = $("#y1").val();
+        var y2 = $("#y2").val();
+        x1 = parseInt(x1);
+        x2 = parseInt(x2);
+        y1 = parseInt(y1);
+        y2 = parseInt(y2);
+        return [[x1, y1], [x2, y2]];
+    }
+
+    function drawLine(points) {
+        var flipXY = false;
+        var negative = false;
+        var p1 = points[0];
+        var p2 = points[1];
+        if (p2[0]===p1[0]) {
+            // x1 == x2 vertical line
+            drawVertical(p2[0], p2[1], p1[1]);
+            return;
+        } else if (p1[0] > p2[0]) {
+            // re-order points L-to-R
+            var pswap = p1;
+            p1 = p2;
+            p2 = pswap;
+        }
+        y = p1[1];
+        dy = p1[1] - p2[1];
+        dx = p1[0] - p2[0];
+        initialD = dy - (dx/2);
+        d = initialD;
+        for (x=p1[0]; x <= p2[0]; x++) {
+            if (d >= 0) {
+                // on or above line, so north east we go
+                d += (dy-dx);
+            } else {
+                // below line, eastward
+                d += dy;
+            }
+            drawPixel(x,y, flipXY, negative);
+        }
+    }
+
+
+    function drawPixel(x, y, flipXY, negative) {
+        if (flipXY) {
+            var temp = x;
+            x = y;
+            y = temp;
+        }
+        if (negative) {
+            
+        }
+    }
+
+
+    $('#addpoint').click( function () {
+        createPointInputs((numPoints+1), null);
+    });
+
+
+</script>
+</body>
+
+</html>
