@@ -285,6 +285,42 @@
         }
     }
 
+    function drawEllipse(center, rx, ry) {
+        // in ellipse equation, rx: a, ry: b
+
+        var pastInflection = false;
+        var y = ry;
+        var x = 0;
+        var d =  
+        while (y >=0) {
+            if (!pastInflection) {
+                // E or SE
+                x++;
+                if (d > 0) {
+                    y--;
+                    
+                }
+
+                if (abs(slope) >= 1) {
+                    d = 0;
+                    pastInflection = true;
+                }
+                
+            } else {
+                // SE or S
+
+                y--; // go S
+                
+                if (d < 0) {
+                    // above line, go E
+                    x++;
+                    d += dx
+                
+                }
+            }
+        }
+    }
+
     function reflectEight(center, x, y) {
         let cx = center[0];
         let cy = center[1];
@@ -296,6 +332,15 @@
         drawPixel(y+cx, cy-x);
         drawPixel(cx-x, cy-y);
         drawPixel(cx-y, cy-x);
+    }
+
+    function reflectFour(center, x, y) {
+        let cx = center[0];
+        let cy = center[1];
+        drawPixel(x+cx, y+cy);
+        drawPixel(cx-x, y+cy);
+        drawPixel(x+cx, cy-y);
+        drawPixel(cx-x, cy-y);
     }
 
     function drawLinePoint(base, x, y, flipXY, negative) {
