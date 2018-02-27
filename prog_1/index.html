@@ -38,7 +38,7 @@
     </div>
     <canvas style="width: 100%; height:80%"></canvas>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+<script src="./jquery.min.js"></script> 
 <script>
 
     var numPoints = 2;
@@ -46,6 +46,19 @@
     var showingxrad = false;
     var showingyrad = false;
     var showingAddPointBtn = false;
+    var canv = $("canvas")[0];
+    var ctx = canv.getContext("2d");
+
+    ctx.beginPath();
+    ctx.arc(100,75,50,0,2*Math.PI);
+    ctx.stroke();
+
+    // set up canvas
+    imgData = ctx.createImageData(1,1);
+    imgData.data[0] = 0;
+    imgData.data[1] = 0;
+    imgData.data[2] = 0;
+    imgData.data[3] = 255;
 
     function setupInputs() {
         var primitive = $("#primitiveSelector").val();
@@ -193,43 +206,60 @@
         var negative = false;
         var p1 = points[0];
         var p2 = points[1];
-        if (p2[0]===p1[0]) {
-            // x1 == x2 vertical line
-            drawVertical(p2[0], p2[1], p1[1]);
-            return;
-        } else if (p1[0] > p2[0]) {
+        if (p1[0] > p2[0]) {
             // re-order points L-to-R
             var pswap = p1;
             p1 = p2;
             p2 = pswap;
         }
-        y = p1[1];
-        dy = p1[1] - p2[1];
-        dx = p1[0] - p2[0];
+        if (p2[1] < p1[1]) {
+            negative = true;
+            p1[1] *= -1;
+        }
+        y = 0;
+        dy = p2[1] - p1[1];
+        dx = p2[0] - p1[0];
+        if (dy > dx) {
+            flipXY = true;
+            var temp = p2[0];
+            p2[0] = p2[1];
+            p2[1] = temp;
+            temp = dy;
+            dy = dx;
+            dx = temp;
+            temp = p1[0];
+            p1[0] = p1[1];
+            p1[1] = temp;
+        }
         initialD = dy - (dx/2);
         d = initialD;
-        for (x=p1[0]; x <= p2[0]; x++) {
+        for (x=0; x <= dx; x++) {
             if (d >= 0) {
                 // on or above line, so north east we go
                 d += (dy-dx);
+                drawPixel(p1, x,y, flipXY, negative);
+                y++;
             } else {
                 // below line, eastward
+                drawPixel(p1, x,y, flipXY, negative);
                 d += dy;
             }
-            drawPixel(x,y, flipXY, negative);
         }
     }
 
 
-    function drawPixel(x, y, flipXY, negative) {
+    function drawPixel(base, x, y, flipXY, negative) {
+        if (negative) { y *= -1; }
+        x += base[0];
+        y += base[1];
         if (flipXY) {
             var temp = x;
             x = y;
             y = temp;
         }
-        if (negative) {
-            
-        }
+        var actualY = canv.height - y;
+
+        ctx.putImageData(imgData, x, actualY);
     }
 
 
