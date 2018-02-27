@@ -185,6 +185,9 @@
             drawLine(points);
             console.log("drawing points: ");
             console.log(points);
+        } else if (primitive == "circle") {
+            p = getCircleInputs();
+            drawCircle(p[0], p[1]);
         }
     }
 
@@ -199,6 +202,16 @@
         y1 = parseInt(y1);
         y2 = parseInt(y2);
         return [[x1, y1], [x2, y2]];
+    }
+
+    function getCircleInputs() {
+        var x1 = $("#centerX").val();
+        var y1 = $("#centerY").val();
+        var r = $("#Xradius").val();
+        x1 = parseInt(x1);
+        y1 = parseInt(y1);
+        r = parseInt(r);
+        return [[x1, y1], r];
     }
 
     function drawLine(points) {
@@ -237,18 +250,55 @@
             if (d >= 0) {
                 // on or above line, so north east we go
                 d += (dy-dx);
-                drawPixel(p1, x,y, flipXY, negative);
+                drawLinePoint(p1, x,y, flipXY, negative);
                 y++;
             } else {
                 // below line, eastward
-                drawPixel(p1, x,y, flipXY, negative);
+                drawLinePoint(p1, x,y, flipXY, negative);
                 d += dy;
             }
         }
     }
 
+    function drawCircle(center, r) {
+        var x = 0;
+        var y = r-1;
+        var twoR = r*2;
+        var d = 1 - twoR;
+        var dx = 1;
+        var dy = 1;
 
-    function drawPixel(base, x, y, flipXY, negative) {
+        for (x=0; x<=y; x++) {
+            reflectEight(center,x,y);
+            if (d <= 0) {
+                d += dx;
+                dx +=2;
+            } else {
+                console.log("IMPOSSIBLE?????")
+            }
+            if (d > 0) {
+                y -= 1;
+                dy += 2
+                d += dy - twoR;
+            }
+
+        }
+    }
+
+    function reflectEight(center, x, y) {
+        let cx = center[0];
+        let cy = center[1];
+        drawPixel(x+cx, y+cy);
+        drawPixel(y+cx, x+cy);
+        drawPixel(cx-x, y+cy);
+        drawPixel(cx-y, x+cy);
+        drawPixel(x+cx, cy-y);
+        drawPixel(y+cx, cy-x);
+        drawPixel(cx-x, cy-y);
+        drawPixel(cx-y, cy-x);
+    }
+
+    function drawLinePoint(base, x, y, flipXY, negative) {
         if (negative) { y *= -1; }
         x += base[0];
         y += base[1];
@@ -257,6 +307,10 @@
             x = y;
             y = temp;
         }
+        drawPixel(x, y);
+    }
+    function drawPixel(x, y) {
+
         var actualY = canv.height - y;
 
         ctx.putImageData(imgData, x, actualY);
