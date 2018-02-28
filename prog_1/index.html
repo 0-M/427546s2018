@@ -33,10 +33,13 @@
                 <div class="inputRow">Y2: <input id="y2" /></div>
             </form>
             <button onclick="drawBtn()">DRAW!</button>
+            <button onclick="clearCanvas()">CLEAR!</button>
         </div>
 
     </div>
-    <canvas style="width: 100%; height:80%"></canvas>
+    <div style="width: 100%; height:80%; text-align:center">
+        <canvas></canvas>
+    </div>
 
 <script src="./jquery.min.js"></script> 
 <script>
@@ -47,6 +50,10 @@
     var showingyrad = false;
     var showingAddPointBtn = false;
     var canv = $("canvas")[0];
+    canv.width  = 800;
+    canv.height = 600; 
+    canv.style.width  = '800px';
+    canv.style.height = '600px';
     var ctx = canv.getContext("2d");
 
     ctx.beginPath();
@@ -188,7 +195,10 @@
         } else if (primitive == "circle") {
             p = getCircleInputs();
             drawCircle(p[0], p[1]);
-        }
+        } else if (primitive == "ellipse") {
+            p = getEllipseInputs();
+            drawEllipse(p[0], p[1], p[2]);
+        }  
     }
 
     function getLineInputs() {
@@ -203,16 +213,28 @@
         y2 = parseInt(y2);
         return [[x1, y1], [x2, y2]];
     }
-
     function getCircleInputs() {
         var x1 = $("#centerX").val();
         var y1 = $("#centerY").val();
-        var r = $("#Xradius").val();
+        var rx = $("#Xradius").val();
         x1 = parseInt(x1);
         y1 = parseInt(y1);
-        r = parseInt(r);
-        return [[x1, y1], r];
+        rx = parseInt(rx);
+        return [[x1, y1], rx];
     }
+
+    function getEllipseInputs() {
+        var x1 = $("#centerX").val();
+        var y1 = $("#centerY").val();
+        var rx = $("#Xradius").val();
+        var ry = $("#Yradius").val();
+        x1 = parseInt(x1);
+        y1 = parseInt(y1);
+        rx = parseInt(rx);
+        ry = parseInt(ry);
+        return [[x1, y1], rx, ry];
+    }
+
 
     function drawLine(points) {
         var flipXY = false;
@@ -273,8 +295,6 @@
             if (d <= 0) {
                 d += dx;
                 dx +=2;
-            } else {
-                console.log("IMPOSSIBLE?????")
             }
             if (d > 0) {
                 y -= 1;
@@ -285,37 +305,51 @@
         }
     }
 
-    function drawEllipse(center, rx, ry) {
+    function drawEllipse(center, a, b) {
         // in ellipse equation, rx: a, ry: b
 
         var pastInflection = false;
-        var y = ry;
+        var asquared = a*a;
+        var bsquared = b*b;
+        var twobsquared = bsquared << 1;
+        var twoasquared = asquared << 1;
+        var y = b;
         var x = 0;
-        var d =  
+        var dx = 0;
+        var dy = 2*asquared*b;
+        var d = bsquared - (dy >> 1) + (asquared>>2);
         while (y >=0) {
+            reflectFour(center, x, y);
             if (!pastInflection) {
                 // E or SE
                 x++;
-                if (d > 0) {
+                dx += twobsquared;
+                if (d >= 0) {
                     y--;
-                    
+                    dy -= twoasquared
+                    d += dx + bsquared - dy;                     
+                } else {
+                    d += dx + bsquared;
                 }
 
-                if (abs(slope) >= 1) {
-                    d = 0;
+                if (dx >= dy) {
+                    d = bsquared*(x+0.5)*(x+0.5)
+                    d += asquared*(y-1)*(y-1)
+                    d -= asquared*bsquared;
                     pastInflection = true;
                 }
-                
             } else {
                 // SE or S
 
                 y--; // go S
-                
+                dy -= twoasquared;
                 if (d < 0) {
                     // above line, go E
                     x++;
-                    d += dx
-                
+                    dx += twobsquared;
+                    d += dx - dy + asquared;
+                } else {
+                    d += asquared - dy;
                 }
             }
         }
@@ -355,10 +389,13 @@
         drawPixel(x, y);
     }
     function drawPixel(x, y) {
-
-        var actualY = canv.height - y;
-
+        var actualY = y
+        if (!startedDrawing && !waitFinal) {
+            actualY = canv.height - y;
+        }
         ctx.putImageData(imgData, x, actualY);
+        // ctx.rect(x, actualY, 1, 1);
+        // ctx.stroke();
     }
 
 
@@ -366,6 +403,84 @@
         createPointInputs((numPoints+1), null);
     });
 
+    $('canvas').mousedown(canvasClickHandlerDown);
+    $('canvas').mouseup(canvasClickHandlerUp);
+    $('canvas').mousemove(canvasDragged);
+
+    var startPoint;
+    var canvrect = canv.getBoundingClientRect();
+    var savedCanvas = null;
+    var startedDrawing = false;
+    var waitFinal = false;
+
+    function canvasClickHandlerDown(e) {
+        startedDrawing = true;
+        startPoint = getPointInCanvas(e);
+    }
+
+    function canvasDragged(e) {
+        if (startedDrawing) {
+            waitFinal = true;
+            restoreCanvas(); //ctx.restore();
+            saveCanvas(); //ctx.save();
+            if (savedCanvas) {
+
+            }
+            var newEnd = getPointInCanvas(e);
+            var primitive = $("#primitiveSelector").val();
+            drawFromDrag(primitive, startPoint, newEnd);
+        }
+    }
+
+    function canvasClickHandlerUp(e) {
+        restoreCanvas(); // ctx.restore();
+        var endpoint = getPointInCanvas(e);
+        var primitive = $("#primitiveSelector").val();
+
+        if ((primitive === 'polyline') || (primitive === 'polyline')) {
+            startPoint = endpoint;
+        } else {
+            startedDrawing = false;
+        }
+        drawFromDrag(primitive, startPoint, endpoint);
+        waitFinal = false;
+        saveCanvas();
+    }
+
+    function getPointInCanvas(e) {
+        var x;
+        var y;
+        if (e.pageX || e.pageY) { 
+            x = e.pageX;
+            y = e.pageY;
+        } else { 
+            x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
+            y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; 
+        } 
+        x -= canv.offsetLeft;
+        y -= canv.offsetTop;
+        return [ x, y];
+    }
+    function drawFromDrag(primitive, a, b) {
+        if (primitive === 'circle') {
+            let radius = Math.abs(a[0]- b[0]) + Math.abs(a[1]-b[1]); 
+            drawCircle(a, radius);
+            
+        }
+    }
+    var tmpC = null;
+    function saveCanvas() {
+        tmpC = ctx.getImageData(0,0,800,600);
+    }
+    function restoreCanvas() {
+        if (tmpC) {
+            ctx.clearRect(0,0,800,600);
+            ctx.putImageData(tmpC,0,0);
+        }
+    }
+    function clearCanvas() {
+        ctx.clearRect(0,0,800,600);
+    }
 
 </script>
 </body>
