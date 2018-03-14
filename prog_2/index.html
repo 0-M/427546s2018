@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/cover.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <title>Graphics Assignment 2!</title>
+  </head>
+  <body class="text-center">
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Let's Render That!</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a id="fractalNav" class="nav-link" href="#" onclick="showFractals()">Fractals</a>
+            <a id="wheelNav" class="nav-link" href="#" onclick="showWheels()">Wheels</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="fractal" role="main" class="inner cover" style="display:none">
+        <h1 class="cover-heading">Fractal Fun</h1>
+        <p class="lead">It's like recursion, but fragmented or something.</p>
+
+        <div class="row">
+          <div class="input-group mb-3 col-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Iterations:</span>
+            </div>
+            <input type="text" class="form-control" id="iterations" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+              <span id="suggestedIterations" class="input-group-text">Suggested: 4</span>
+            </div>
+          </div>
+          <div class="input-group mb-3 col-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon12">Ratio:</span>
+            </div>
+            <input type="text" class="form-control" id="ratio" aria-describedby="basic-addon12">
+            <div class="input-group-append">
+              <span id="ratioHint" class="input-group-text">Example: 1/2</span>
+            </div>
+          </div>
+        </div>
+        <p class="lead">
+          <a href="#" class="btn btn-lg btn-secondary" onclick="startFractal()" >Render</a>
+        </p>
+        <canvas id="fractalCanv" class="renderWindow"></canvas>
+      </main>
+
+      <main id="wheel" role="main" class="inner cover">
+        <h1 class="cover-heading">Wheel Designer</h1>
+        <p class="lead">So, you've been ranked as a driver. Let's get you some wheels!</p>
+        <div class="container">
+          <p class="lead">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">Radius:</span>
+              </div>
+              <input type="text" class="form-control" id="radius" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <span id="suggestedRadius" class="input-group-text">Suggested: 10</span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Score:</span>
+              </div>
+              <input type="text" class="form-control" id="driverScore" aria-describedby="basic-addon3">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="startWheel()">Make Wheel!</button>
+              </div>
+            </div>
+          </p>
+        </div>
+        <canvas id="wheelCanv" class="renderWindow"></canvas>
+      </main>
+
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Maximilian Markmanrud's Assignment 2 for Computer Graphics.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
