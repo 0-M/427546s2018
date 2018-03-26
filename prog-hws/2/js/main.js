@@ -46,10 +46,10 @@ function startFractal() {
     let begin = [canv.width / 3, canv.height/2];
     let end = [(2*canv.width) / 3, canv.height/2];
     var ratio = eval($('#ratio').val());
-    let primitive = "line";
+    let primitive = $('#fractal-primitive').val();
     let iterations = parseInt($('#iterations').val());
 
-    console.log("start: ", begin, " end: ", end, " ratio:", ratio, " iterations:", iterations);
+    console.log("start: ", begin, " end: ", end, " ratio:", ratio, " iterations:", iterations, "  primitive: ", primitive);
     drawFractal(primitive, ratio, iterations, begin, end, true);
 };
 
