@@ -41,11 +41,14 @@ function showWheels() {
 };
 
 function startFractal() {
-    let begin = [canv.width / 4, 3*canv.height/4];
-    let end = [(3*canv.width) / 4, 3*canv.height/4];
-    let ratio = eval($('#ratio').val());
+    ctx.clearRect(0, 0, canv.width, canv.height);
+
+    let begin = [canv.width / 3, canv.height/2];
+    let end = [(2*canv.width) / 3, canv.height/2];
+    var ratio = eval($('#ratio').val());
     let primitive = "line";
     let iterations = parseInt($('#iterations').val());
+
     console.log("start: ", begin, " end: ", end, " ratio:", ratio, " iterations:", iterations);
     drawFractal(primitive, ratio, iterations, begin, end, true);
 };
@@ -79,9 +82,18 @@ function drawFractal(primitive, ratio, iterations, begin, end, up) {
             } else {
                 newUp = i % 2 ? false : true;
             }
-            let newPoints = pointsOnPrimitive(primitive, begin, end, i, i+ratio, up);
-            console.log("recursing: ", iterations, "ratio: ", i, " newPoints: ", newPoints);
-            drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+           
+            if (primitive === "line") {
+                var newPoints = pointsOnPrimitive(primitive, begin, end, i, i+ratio/2, up, true);
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+
+                newPoints = pointsOnPrimitive(primitive, begin, end, i+ratio/2, i+ratio, up, false);
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+            } else if (primitive === "arc") {
+                var newPoints = pointsOnPrimitive(primitive, begin, end, i, i+ratio, up);
+                console.log("recursing: ", iterations, "ratio: ", i, " newPoints: ", newPoints);
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+            }
             count += 1;
         }
     }
@@ -93,7 +105,7 @@ function midpoint(a, b) {
 }
 
 function getAngle(a, b) {
-    return Math.atan2(b[1]-a[1], b[0]-a[0]);
+    return Math.atan2((b[1]-a[1])*-1, (b[0]-a[0]));
 }
 
 function distanceBetween(a, b) {
@@ -104,7 +116,7 @@ function distanceBetween(a, b) {
     return Math.sqrt(csq);
 }
 
-function pointsOnPrimitive(primitive, begin, end, i, j, up) {
+function pointsOnPrimitive(primitive, begin, end, i, j, up, positive) {
     // find two points along primitive
     // console.log("PoP input: ", begin, end, i, j, up);
 
@@ -117,36 +129,33 @@ function pointsOnPrimitive(primitive, begin, end, i, j, up) {
     switch (primitive) {
         case "line": {
             var rtTwo = Math.sqrt(2);
-            var length = rtTwo * d; // the whole triangle path length, one side is rt2*(d/2)
+            //var length = rtTwo * d; // the whole triangle path length, one side is rt2*(d/2)
+            var length = rtTwo * (d/2);
             var x = 0;
             var y = 0;
-            // console.log("PoP 2: ", angle, reverseAngle, mult, d);
-            if (i <= 0.5) {
+            // console.log("PoP 2: angle: ", angle, "reverse:", reverseAngle, d );
+            if (positive) {
                 // start at begin
-                let tempAngle = angle - Math.PI/4;
-                x = begin[0] + length*i*Math.cos(tempAngle);
-                y = begin[1] + length*i*Math.sin(tempAngle);
-            } else {
-                let tempAngle = reverseAngle + Math.PI/4;                
-                i = 1-i;
-                x = begin[0] +length*i*Math.cos(tempAngle);
-                y = begin[1] +length*i*Math.sin(tempAngle);
-            }
-            points[0] = [x,y];
+                points[0] = begin;
 
-            if (j <= 0.5) {
-                let tempAngle = angle - Math.PI/4;
-                x = end[0] + length*j*Math.cos(tempAngle);
-                y = end[1] + length*j*Math.sin(tempAngle);
+                let tempAngle = angle - (mult*Math.PI/4);
+                x = begin[0] + length*Math.cos(tempAngle);
+                y = begin[1] + length*Math.sin(tempAngle);
+                points[1] = [x,y];
+
             } else {
-                j = 1-j
-                let tempAngle = reverseAngle - Math.PI/4;
-                x = end[0] + length*j*Math.cos(tempAngle);
-                y = end[1] + length*j*Math.sin(tempAngle);
-            }
-            
-            points[1] = [x,y];
-            
+                let tempAngle = reverseAngle + (mult*Math.PI/4);
+                // console.log("tempAngle neg ", tempAngle);
+                                
+                i = 1-i;
+                j = 1-j;
+
+                x = end[0] + length*Math.cos(tempAngle);
+                y = end[1] + length*Math.sin(tempAngle);
+                points[0] = [x,y];
+
+                points[1] = end;
+            }            
             break;
         }
         case "arc": {
@@ -214,5 +223,15 @@ function drawRegularPoly(center, radius, n) {
 };
 
 
+function runUnitTests() {
+    console.log("midpoint  5,5  10,10: ", midpoint([5,5],[10,10]));
+    console.log("distanceBetween  5,5  15,15: ", distanceBetween([5,5],[15,15]));
+    console.log("getAngle  5,5  10,10: ", getAngle([5,5],[10,10]));
+    console.log("getAngle  5,5  10,0: ", getAngle([5,5],[10,0]));
+}
+
+
 setupCanvas();
 showWheels();
+
+runUnitTests();
