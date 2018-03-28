@@ -37,7 +37,7 @@ function showWheels() {
     $('#fractalNav').removeClass('active');
     let suggestedRadius = Math.min(canv.height, canv.width) * 0.4;
     $('#suggestedRadius').text('Suggested Radius: ' + suggestedRadius.toString());
-    console.log("doing that whel");
+    // console.log("doing that whel");
 };
 
 function startFractal() {
@@ -70,29 +70,41 @@ function drawFractal(primitive, ratio, iterations, begin, end, up) {
             }
             case "arc": {
                 console.log("drawing arc from ",begin, " to ", end);
+                let center = midpoint(begin, end);
+                let radius = distanceBetween(center, end);
+                let startAngle = getAngle([0,0], [center[0]-begin[0], center[1]-begin[1]]);
+                let endAngle = getAngle([0,0], [center[0]-end[0], center[1]-end[1]]);
+                ctx.beginPath();
+                ctx.arc(center[0], center[1], radius, startAngle, endAngle, up);
+                ctx.stroke();
                 break;
             }
         }
     } else {
         var count = 0;
         var newUp;
-        for (i=0; i<1; i+=ratio ) {
+        for (var i=0; i<1; i+=ratio ) {
+            console.log("looping, i = ", i, " ratio = ", ratio);
             if (up) {
-                newUp = i % 2 ? true : false;
+                newUp = count % 2 ? true : false;
             } else {
-                newUp = i % 2 ? false : true;
+                newUp = count % 2 ? false : true;
             }
            
             if (primitive === "line") {
                 var newPoints = pointsOnPrimitive(primitive, begin, end, i, i+ratio/2, up, true);
-                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp);
+                console.log("recursing: ", iterations, "ratio: ", i, " newPoints: ", newPoints);
 
                 newPoints = pointsOnPrimitive(primitive, begin, end, i+ratio/2, i+ratio, up, false);
-                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp);
             } else if (primitive === "arc") {
                 var newPoints = pointsOnPrimitive(primitive, begin, end, i, i+ratio, up);
                 console.log("recursing: ", iterations, "ratio: ", i, " newPoints: ", newPoints);
-                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp)
+                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp);
+
+//                newPoints = pointsOnPrimitive(primitive, begin, end, i+ratio/2, i+ratio, up, false);
+//                drawFractal(primitive, ratio, iterations-1, newPoints[0], newPoints[1], newUp);
             }
             count += 1;
         }
@@ -160,12 +172,13 @@ function pointsOnPrimitive(primitive, begin, end, i, j, up, positive) {
         }
         case "arc": {
             center = midpoint(begin, end);
-            var x = center[0] + radius * Math.cos(2*Math.PI*i + (mult*angle));
-            var y = center[1] + radius * Math.sin(2*Math.PI*i + (mult*angle));
+            let radius = distanceBetween(begin, center);
+            var x = center[0] + radius * Math.cos(Math.PI*i + (mult*angle));
+            var y = center[1] + radius * Math.sin(Math.PI*i + (mult*angle));
             points[0] = [x,y];
-            x = center[0] + radius * Math.cos(2*Math.PI*j + (mult*angle));
-            y = center[1] + radius * Math.sin(2*Math.PI*j + (mult*angle));
-            points[1] = [x,y];
+            let x2 = center[0] + radius * Math.cos(Math.PI*j + (mult*angle));
+            let y2 = center[1] + radius * Math.sin(Math.PI*j + (mult*angle));
+            points[1] = [x2,y2];
             break;
         }
     }
