@@ -1,12 +1,4 @@
 
-
-
-function render() {
-    console.log("SHOWING THAT");
-}
-
-
-
 function saveIfComplete() {
     
     if (!app.selectedPrimitive) { 
@@ -42,35 +34,29 @@ function addTriangle(values) {
     shape.lineTo(values[0], values[1], values[2]);
     
     let geometry = new THREE.ShapeGeometry( shape );
-    let material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+    let material = new THREE.MeshBasicMaterial( { color: fdfd96 } );
     let mesh = new THREE.Mesh( geometry, material ) ;
     app.scene.add( mesh );
 
-
-
-
-
-/*
-
-    var geo = new THREE.Geometry();
-    geo.vertices.push(a, b, c);
-    geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
-    geo.computeFaceNormals();
-    geo.computeVertexNormals();
-
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var mesh = new THREE.Mesh( geo, material );
-    app.objects3D.push(mesh);
-    app.scene.add( mesh );
-    console.log("SHOWING THAT asdj");*/
 }
-function addCube() {
+function addCube(values) {
     console.log("SHOWING THAT v");
+    let sideLength = values[3];
+    let geometry = new THREE.BoxGeometry(sideLength, sideLength, sideLength);
+    geometry.translate(values[0], values[1], values[2]);
+    let material = new THREE.MeshBasicMaterial( { color: 0x099ff } );
+    let mesh = new THREE.Mesh( geometry, material ) ;
+    app.scene.add( mesh );
 
 }
-function addSphere() {
+function addSphere(values) {
     console.log("SHOWING THAT c");
-    
+    let radius = values[3];
+    let geometry = new THREE.SphereGeometry(radius, 64, 64);
+    geometry.translate(values[0], values[1], values[2]);
+    let material = new THREE.MeshBasicMaterial( { color: 0xffd1dc } );
+    let mesh = new THREE.Mesh( geometry, material ) ;
+    app.scene.add( mesh );
 }
 
 var primitives = {
@@ -108,7 +94,7 @@ var primitives = {
 
 
 
-function addAnotherVertex() {
+function render() {
     console.log("SHOWING THAT ANOTHER VERTX");
 
     saveIfComplete();
