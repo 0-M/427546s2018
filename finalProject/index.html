@@ -25,11 +25,31 @@
         </div>
       </header>
 
-      <main id="fractal" role="main" class="inner cover">
+      <main id="app" role="main" class="inner cover">
         <h1 class="cover-heading">3D MODELS</h1>
         <p class="lead">Create 3D planes from triangles!</p>
 
 
+        <select v-model="selectedPrimitiveName">
+            <!-- inline object literal -->
+            <option v-for="(prim, primkey) in primitives" v-bind:value="primkey">{{prim.name}}</option>
+        </select>
+
+
+        <ul class="list-group" id="prim-inputs">
+          <li class="list-group-item" v-for="(row, rowName) in selectedPrimitive.inputs">
+            <div class="row" :id="rowName">
+              <p class="col-sm">{{rowName}}: </p>
+              <div v-for="(inputName, index) in row" class="input-group mb-3 col-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" :id="rowName + index">{{inputName}}:</span>
+                </div>
+                <input type="text" class="form-control" :id="inputName" :aria-describedby="rowName + index">
+              </div>
+            </div>
+          </li>
+        </ul>
+<!-- 
         <div id="vertices">
           
           <div class="row" id="point1">
@@ -103,17 +123,12 @@
               <option value="line" selected>Line</option>
               <option value="arc">Arc</option>
             </select>
-          </div> -->
+          </div>
 
-        </div> <!-- end vertices --> 
+        </div> --> <!-- end vertices --> 
 
         <br />
         <br />
-        <div id="app">
-          <p>TRIANGLES: </p>
-          {{ triangles }}
-        </div>
-
         <p class="lead">
           <div class="row">
             <div class="col-sm">
@@ -124,6 +139,8 @@
             </div>
           </div>
         </p>
+        <div id='renderer'></div>
+        
         <!-- <canvas id="fractalCanv" class="renderWindow"></canvas> -->
       </main>
 
@@ -136,6 +153,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/three.js"></script> 
+    
     <script src="js/vue.js"></script>
     <script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -1,15 +1,108 @@
 
 
 
-
 function render() {
     console.log("SHOWING THAT");
 }
 
 
 
+function saveIfComplete() {
+    
+    if (!app.selectedPrimitive) { 
+        return;
+    }
+
+    var values = [];
+    for (var row in app.selectedPrimitive.inputs) {
+        let inputsForRow = app.selectedPrimitive.inputs[row]
+        for (var input in inputsForRow) {
+            var val = parseFloat($("#"+row).find("input#"+ inputsForRow[input]).val());
+            if (val !== NaN) {
+                values.push(val);
+            } else {
+                return;
+            }
+        }
+    }
+    app.selectedPrimitive.add(values);
+}
 
 
+function addTriangle(values) {
+    var a = new THREE.Vector3(values[0], values[1], values[2]);
+    var b = new THREE.Vector3(values[3], values[4], values[5]);
+    var c = new THREE.Vector3(values[6], values[7], values[8]);
+
+    let shape = new THREE.Shape();
+
+    shape.moveTo(values[0], values[1], values[2]);
+    shape.lineTo(values[3], values[4], values[5]);
+    shape.lineTo(values[6], values[7], values[8]);
+    shape.lineTo(values[0], values[1], values[2]);
+    
+    let geometry = new THREE.ShapeGeometry( shape );
+    let material = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+    let mesh = new THREE.Mesh( geometry, material ) ;
+    app.scene.add( mesh );
+
+
+
+
+
+/*
+
+    var geo = new THREE.Geometry();
+    geo.vertices.push(a, b, c);
+    geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    geo.computeFaceNormals();
+    geo.computeVertexNormals();
+
+    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var mesh = new THREE.Mesh( geo, material );
+    app.objects3D.push(mesh);
+    app.scene.add( mesh );
+    console.log("SHOWING THAT asdj");*/
+}
+function addCube() {
+    console.log("SHOWING THAT v");
+
+}
+function addSphere() {
+    console.log("SHOWING THAT c");
+    
+}
+
+var primitives = {
+    triangle : {
+        name: "Triangle",
+        inputs: {
+            "point1": ["x1", "y1", "z1"],
+            "point2": ["x2", "y2", "z2"],
+            "point3": ["x3", "y3", "z3"]
+        },
+        object3D: undefined,
+        add: addTriangle        
+    },
+    sphere : {
+        name: "Sphere",
+        inputs: {
+            "point": ["x", "y", "z"],
+            "radius": ["radius"]
+        },
+        object3D: undefined,
+        add: addSphere        
+    },
+    cube : {
+        name: "Cube",
+        inputs : {
+            "point": ["x", "y", "z"],
+            "side": ["length"]
+        },
+        object3D: undefined,
+        add: addCube
+    }
+}
 
 
 
@@ -18,10 +111,10 @@ function render() {
 function addAnotherVertex() {
     console.log("SHOWING THAT ANOTHER VERTX");
 
-    saveTriangleIfComplete();
+    saveIfComplete();
 
 }
-
+/*
 function saveTriangleIfComplete() {
     var x1, x2, x3, y1, y2, y3, z1, z2, z3;
     x1 = parseInt($('#point1').find('#xinput').val());
@@ -51,39 +144,60 @@ function addTriangle(x1, y1, z1, x2, y2, z2, x3, y3, z3) {
         [x2, y2, z2],
         [x3, y3, z3]]
     );
-}
+}*/
 
 var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!',
-      numVertices: 12,
-      triangles: [],
-      vertices: [
-            [-1,0,0],
-            [1 ,0,0],
-            [1 ,1,0],
-            [-1,1,0],
-            
-            [-1,0,0],
-            [-1,1,0],
-            [ 0,1,-1],
-            [ 0,0,-1],
-
-            [ 1,0,0],
-            [ 1,1,0],
-            [ 0,1,-1],
-            [ 0,0,-1]
-      ]
+        scene : undefined,
+        camera : undefined,
+        renderer : undefined,
+        objects3D : [],
+        primitives : primitives,
+        selectedPrimitiveName : "triangle"
     },
     computed: {
-        showVertices() {
-            var verts = ''
-            for (var i=0; i<this.vertices.length; i++) {
-                verts += i.toString() + ': ' + this.vertices[i].toString() + '\n\r';
-            }
-            return verts;
+        selectedPrimitive() {
+            return this.primitives[this.selectedPrimitiveName]
         }
     }
-  });
+});
 
+function setupThree() {
+    app.scene = new THREE.Scene();
+    app.camera = new THREE.PerspectiveCamera( 75, 300/300, 0.1, 1000 );
+    app.renderer = new THREE.WebGLRenderer();
+    app.renderer.setSize(300, 300);
+    $('#renderer').append( app.renderer.domElement );
+}
+
+setupThree();
+
+/*var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var cube = new THREE.Mesh( geometry, material );
+app.scene.add( cube );
+*/
+
+
+
+
+
+
+
+app.camera.position.z = 5;
+
+
+function animate() {
+    requestAnimationFrame( animate );
+    
+    // do animations
+    // app.objects3D[0].rotation.x += 0.01;
+    // app.objects3D[0].rotation.y += 0.01;
+    app.renderer.render( app.scene, app.camera );
+
+}
+animate();
+let camera = app.camera;
+let scene = app.scene;
+let renderer = app.renderer;
