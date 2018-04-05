@@ -137,6 +137,9 @@ var app = new Vue({
     data: {
         scene : undefined,
         camera : undefined,
+        cameraX: 0,
+        cameraY: 0,
+        cameraZ: 5,
         renderer : undefined,
         objects3D : [],
         primitives : primitives,
@@ -171,11 +174,13 @@ app.scene.add( cube );
 
 
 
-app.camera.position.z = 5;
 
 
 function animate() {
     requestAnimationFrame( animate );
+    app.camera.position.x = parseFloat(app.cameraX);
+    app.camera.position.y = parseFloat(app.cameraY);
+    app.camera.position.z = parseFloat(app.cameraZ);
     
     // do animations
     // app.objects3D[0].rotation.x += 0.01;

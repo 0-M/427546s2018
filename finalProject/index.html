@@ -37,6 +37,26 @@
 
 
         <ul class="list-group" id="prim-inputs">
+          <li class="list-group-item">
+            <div class="input-group mb-3 col-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Camera X:</span>
+                </div>
+                <input type="text" class="form-control" v-model="cameraX">
+            </div>        
+            <div class="input-group mb-3 col-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Camera Y:</span>
+                </div>
+                <input type="text" class="form-control" v-model="cameraY">
+            </div>  
+            <div class="input-group mb-3 col-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Camera Z:</span>
+                </div>
+                <input type="text" class="form-control" v-model="cameraZ">
+            </div>  
+          </li>
           <li class="list-group-item" v-for="(row, rowName) in selectedPrimitive.inputs">
             <div class="row" :id="rowName">
               <p class="col-sm">{{rowName}}: </p>
