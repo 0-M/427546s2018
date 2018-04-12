@@ -1,0 +1,22 @@
+REPORT:
+
+Week one: 
+I decided to use triangles. A user can input as many 3D triangles as they wish. 
+
+ - These triangles can be put together to represent any 3D face. 
+ - WebGL can easily render triangles
+ - Relatively easy to comprehend when compared to entering many vertices/edges
+
+
+
+Week Two: 
+I enabled rendering. I moved the camera. I made objects in 3D space.
+
+
+Week Three: 
+
+ - Added lights & ability to change colors
+ - Added interactivity: move around XZ plane with WASD keys
+ - Added interactivity: drag to change camera angle
+ - Re-thought the interface to be more immersive
+ - Disabled triangles. They were very tedious to enter. 

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/cover.css">
+  <link rel="stylesheet" href="css/main.css">
+  
+  <title>Final Project!</title>
+</head>
+<body class="text-center">
+  
+  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <h3 class="masthead-brand">Let's Render That!</h3>
+        <!-- <nav class="nav nav-masthead justify-content-center">
+          <a id="fractalNav" class="nav-link" href="#" onclick="showFractals()">Fractals</a>
+          <a id="wheelNav" class="nav-link" href="#" onclick="showWheels()">Wheels</a>
+        </nav> --> 
+      </div>
+    </header>
+    
+    <main id="app" role="main" class="inner cover">
+      <h1 class="cover-heading">3D MODELS</h1>
+      <p class="lead">Create 3D shapes! In 3D space!</p>
+      
+      
+      <div>
+          <h1>CAMERA: </h1>
+          <div class="form-group row">
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera X:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraX">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera Rotation X:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraRotX">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera Y:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraY">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera Rotation Y:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraRotY">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera Z:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraZ">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Camera Rotation Z:</span>
+              </div>
+              <input type="text" class="form-control" v-model="cameraRotZ">
+            </div>
+          </div>
+
+      </div>
+      
+      <ul class="list-group" id="prim-inputs">
+        <li class="list-group-item" >
+          <div class="form-group row">
+            <label for="primitiveSelect" class="col-med col-form-label">Select 3D Shape: </label>
+            <div class="col-sm">
+                <select id="primitiveSelect" v-model="selectedPrimitiveName">
+                    <!-- inline object literal -->
+                    <option v-for="(prim, primkey) in primitives" v-bind:value="primkey">{{prim.name}}</option>
+                </select>                          
+            </div>
+  
+          </div>
+        </li>
+        <li class="list-group-item" v-for="(row, rowName) in selectedPrimitive.inputs">
+          <div class="row" :id="rowName">
+            <p class="col-sm">{{rowName}}: </p>
+            <div v-for="(inputName, index) in row" class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" :id="rowName + index">{{inputName}}:</span>
+              </div>
+              <input type="text" class="form-control" :id="inputName" :aria-describedby="rowName + index">
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- 
+        <div id="vertices">
+          
+          <div class="row" id="point1">
+            <p class="col-sm">Point 1: </p>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="xinput-label">X:</span>
+              </div>
+              <input type="text" class="form-control" id="xinput" aria-describedby="xinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="yinput-label">Y:</span>
+              </div>
+              <input type="text" class="form-control" id="yinput" aria-describedby="yinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="zinput-label">Z:</span>
+              </div>
+              <input type="text" class="form-control" id="zinput" aria-describedby="zinput-label">
+            </div>
+          </div>
+          <div class="row" id="point2">
+            <p class="col-sm">Point 2: </p>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="xinput-label">X:</span>
+              </div>
+              <input type="text" class="form-control" id="xinput" aria-describedby="xinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="yinput-label">Y:</span>
+              </div>
+              <input type="text" class="form-control" id="yinput" aria-describedby="yinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="zinput-label">Z:</span>
+              </div>
+              <input type="text" class="form-control" id="zinput" aria-describedby="zinput-label">
+            </div>
+          </div>
+          <div class="row" id="point3">
+            <p class="col-sm">Point 3: </p>            
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="xinput-label">X:</span>
+              </div>
+              <input type="text" class="form-control" id="xinput" aria-describedby="xinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="yinput-label">Y:</span>
+              </div>
+              <input type="text" class="form-control" id="yinput" aria-describedby="yinput-label">
+            </div>
+            <div class="input-group mb-3 col-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="zinput-label">Z:</span>
+              </div>
+              <input type="text" class="form-control" id="zinput" aria-describedby="zinput-label">
+            </div>
+          </div>
+          
+          
+          <!-- 
+            <div class="row">
+              <select class="custom-select" id="fractal-primitive">
+                <option value="line" selected>Line</option>
+                <option value="arc">Arc</option>
+              </select>
+            </div>
+            
+          </div> --> <!-- end vertices --> 
+          
+          <br />
+          <br />
+          <p class="lead">
+            <div class="row">
+              <div class="col-sm">
+                <button class="btn btn-lg btn-secondary" onclick="render()">render</a>
+                </div>
+              </div>
+            </p>
+            <div id='renderer'></div>
+            
+            <!-- <canvas id="fractalCanv" class="renderWindow"></canvas> -->
+          </main>
+          
+          <footer class="mastfoot mt-auto">
+            <div class="inner">
+              <p>Max's Final Project for Computer Graphics.</p>
+            </div>
+          </footer>
+        </div>
+        
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/three.js"></script> 
+        
+        <script src="js/vue.js"></script>
+        <script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="js/main.js"></script>
+      </body>
+      </html>
+      

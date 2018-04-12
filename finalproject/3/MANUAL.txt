@@ -1,0 +1,31 @@
+Welcome! 
+
+
+Table of Contents:
+1. Adding 3D Objects
+2. Moving the Camera
+3. Changing the Light
+
+
+1.Adding 3D objects: 
+    1) Open the menu
+    2) Open "Shape Creator" 
+    3) Choose a Shape
+    4) Add parameters
+
+
+2. Moving the Camera
+    A) Rotation
+        1) Slowly click and drag the rendering window.
+        2) In the menu, open the Camera settings and adjust manually.
+    B) Translation
+        Use WASD keys to move around the XZ plane.
+        Note: this moves the camera relative to the world, not itself.
+
+
+3. Changing the Light
+    A) Color:
+        1) Open the menu
+        2) Open "Lights" box
+        3) Enter a hex RGB color code (#00ff00: green)
+
