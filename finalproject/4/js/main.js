@@ -56,6 +56,30 @@ function addSphere(values) {
     let mesh = new THREE.Mesh( geometry, material ) ;
     addMesh( mesh, app.primitives.sphere );
 }
+function addPlane(values) {
+    console.log("SHOWING THAT plane");
+    let sideA = values[3];
+    let sideB = values[4];
+    let geometry = new THREE.PlaneGeometry(sideA, sideB);
+    geometry.translate(values[0], values[1], values[2]);
+     geometry.rotateX(-1*Math.PI/2)
+    // geometry.rotateY(Math.PI/4);
+    // geometry.rotateZ(Math.PI/4);
+//    let material = new THREE.MeshBasicMaterial( { color: 0xffd1dc } );
+    //let material = getMaterial();
+    var bmap =  THREE.ImageUtils.loadTexture('./brick-bump-map.jpg', {}, function(){})
+    let material = new THREE.MeshPhongMaterial({
+        color      :  new THREE.Color("rgb(155,196,30)"),
+        emissive   :  new THREE.Color("rgb(7,3,5)"),
+        specular   :  new THREE.Color("rgb(255,113,0)"),
+        shininess  :  20,
+        bumpMap    :  bmap,
+        bumpScale  :  0.45,
+      });
+    let mesh = new THREE.Mesh( geometry, material ) ;
+    // mesh.rotation.set(new THREE.Vector3( 0, 0, Math.PI / 2));
+    addMesh( mesh, app.primitives.plane );
+}
 
 function addMesh(mesh, prim) {
     app.scene.add(mesh);
@@ -71,7 +95,7 @@ function getObjectPositionInWorld(mesh) {
 }
 
 var primitives = {
-    /*triangle : {
+    triangle : {
         name: "Triangle",
         inputs: {
             "point1": ["x1", "y1", "z1"],
@@ -81,11 +105,11 @@ var primitives = {
         object3D: undefined,
         add: addTriangle,
         count:0
-    },*/
+    },
     sphere : {
         name: "Sphere",
         inputs: {
-            "point": ["x", "y", "z"],
+            "center": ["x", "y", "z"],
             "radius": ["radius"]
         },
         object3D: undefined,
@@ -95,8 +119,18 @@ var primitives = {
     cube : {
         name: "Cube",
         inputs : {
-            "point": ["x", "y", "z"],
+            "center": ["x", "y", "z"],
             "side": ["length"]
+        },
+        object3D: undefined,
+        add: addCube,
+        count:0
+    },
+    plane : {
+        name: "Plane",
+        inputs : {
+            "center": ["x", "y", "z"],
+            "sides": ["length", "width"]
         },
         object3D: undefined,
         add: addCube,
@@ -126,7 +160,7 @@ var app = new Vue({
         mouseY: 0,
         mouseDown: false,
         cameraX: 0,
-        cameraY: 5,
+        cameraY: 3,
         cameraZ: 10,
         cameraRotX: -0.3,
         cameraRotY: 0,
@@ -136,7 +170,7 @@ var app = new Vue({
         objects3D : {},
         primitives : primitives,
         // light: () => addLight([50,50,50], 0xff0000),
-        lightColor : "#0xff0000",
+        lightColor : "#0x050505",
         selectedPrimitiveName : "cube",
         width: window.innerWidth,
         height: window.innerWidth
@@ -150,6 +184,13 @@ var app = new Vue({
         getObjPos: getObjectPositionInWorld
     }
 });
+
+function getMaterial() {
+    let colors = [0xffb3ba, 0xffdfba, 0xffffba, 0xbaffc9, 0xbae1ff, 0xe1f7d5]
+    yourcolor = colors[Math.floor(Math.random()*colors.length)]
+    yourspec = colors[Math.floor(Math.random()*colors.length)]
+    return new THREE.MeshPhongMaterial( { color: yourcolor, specular: yourspec, shininess: 30, flatShading: true } )
+}
 
 function setupThree() {
     app.scene = new THREE.Scene();
@@ -176,7 +217,7 @@ function addLight(pos, color) {
 var light = new THREE.AmbientLight( 0x404040 ); // soft white light
 app.scene.add( light );
 
-light = addLight([50,50,50], 0xff0000);
+light = addLight([50,50,50], 0x050505);
 
 
 function animate() {
@@ -224,12 +265,16 @@ function toggleMenu() {
 
 function addDefaults() {
     addSphere([0,0,0,0.5]);
+    addPlane([0,-1,0,25,25]);
+    vpw = $(window).width();
+    vph = $(window).height();
+    $('#content').css({'height': vph + 'px','width': vpw + 'px', });
+    $('#canvastainer').css({'height': vph + 'px','width': vpw + 'px', });
+    $('#renderer').css({'height': vph + 'px','width': vpw + 'px', });
 }
 addDefaults();
 
 function setupDragging() {
-
-
     document.addEventListener('mousemove', function(event) {
         app.mouseX = event.clientX;
         app.mouseY = event.clientY;
@@ -241,6 +286,8 @@ function setupDragging() {
     document.body.addEventListener("mouseup", function(event) {
         app.mouseDown = false
     }, false);
+
+    
 }
 
 setupDragging();
@@ -254,13 +301,33 @@ function setupWalking() {
         } else if (code === 68) { //d key
             app.cameraX += 0.1
         }
-
         if (code === 87) { //w key
-            app.cameraZ -= 0.1
+            // app.cameraZ -= 0.1;
+            moveCameraForward(false);
         } else if (code === 83) { //s key
-            app.cameraZ += 0.1
+            moveCameraForward(true);
         }
+
+      if (code === 40) { // down key
+        app.cameraY -= 0.1
+      } else if (code === 38) { // up key
+        app.cameraY += 0.1
+      }
     };
+}
+
+function moveCameraForward(neg) {
+    let cameraVector = new THREE.Vector3()
+    app.camera.getWorldDirection(cameraVector)
+    let speed = 0.5
+    if (neg) {
+        cameraVector.multiplyScalar(speed * -1)
+    } else {
+        cameraVector.multiplyScalar(speed)        
+    }
+    app.cameraX += cameraVector.x;
+    // app.cameraY += cameraVector.y;
+    app.cameraZ += cameraVector.z;
 }
 
 setupWalking();

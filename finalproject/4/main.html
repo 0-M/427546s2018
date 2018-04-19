@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <script defer src="fontawesome/fontawesome-all.min.js"></script>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css">
+  
+  <title>Final Project!</title>
+</head>
+<body>
+  
+
+
+
+
+  <div id="app" class="wrapper">
+      <p id="infotext">Use WASD to move</p>
+
+      <button type="button" class="mybtn btn btn-light" onclick="toggleMenu()">SHOW MENU</button>
+
+
+
+    <nav id="sidebar" class="row">
+
+      <div class="col-lg" id="configurtainer">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Camera
+              </button>
+            </h5>
+          </div>
+      
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              <div class="form-group row">
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera X:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraX">
+                </div>
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera Rotation X:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraRotX">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera Y:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraY">
+                </div>
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera Rotation Y:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraRotY">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera Z:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraZ">
+                </div>
+                <div class="input-group mb-3 col-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Camera Rotation Z:</span>
+                  </div>
+                  <input type="text" class="form-control" v-model="cameraRotZ">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Shape Creator
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+
+              <ul class="list-group" id="prim-inputs">
+                <li class="list-group-item" >
+                  <div class="form-group row">
+                    <label for="primitiveSelect" class="col-med col-form-label">Select 3D Shape: </label>
+                    <div class="col-sm">
+                        <select id="primitiveSelect" v-model="selectedPrimitiveName">
+                            <option v-for="(prim, primkey) in primitives" v-bind:value="primkey">{{prim.name}}</option>
+                        </select>                          
+                    </div>
+          
+                  </div>
+                </li>
+                <li class="list-group-item" v-for="(row, rowName) in selectedPrimitive.inputs">
+                  <div class="row" :id="rowName">
+                    <p class="col-sm">{{rowName}}: </p>
+                    <div v-for="(inputName, index) in row" class="input-group mb-3 col-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" :id="rowName + index">{{inputName}}:</span>
+                      </div>
+                      <input type="text" class="form-control" :id="inputName" :aria-describedby="rowName + index">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <button class="btn btn-lg btn-secondary" onclick="render()">render</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Lights
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                <div class="input-group mb-3 col-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Spotlight Color:</span>
+                    </div>
+                    <input type="text" class="form-control" v-model="lightColor">
+                  </div>
+              Please use a hex value like #ff00ff or #123000!
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Animations
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+              in the works
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg" id="object-list">
+
+        LOOK AT THESE OBJECTS
+        <ul class="list-group" id="objectlist">
+            <li class="list-group-item" v-for="(obj, objName) in objects3D">
+              <div class="row" :id="objName">
+                <p class="col-sm">{{objName}}: </p>
+                <p>X: {{getObjPos(obj.m).x}}   Y: {{obj.m.position.y}}   Z: {{obj.m.position.z}}</p>
+              </div>
+            </li>
+          </ul>
+      </div>  
+
+      <div id="dismiss">
+          <button type="button" class="btn btn-light" onclick="toggleMenu()">HIDE MENU</button>
+        </div>
+        </nav>
+    </div>
+ 
+
+
+    <div id="content">
+      <div id="canvastainer">
+        <div id='renderer'></div>
+      </div>
+    
+    
+    </div>
+
+
+
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="js/three.js"></script> 
+  
+  <script src="js/vue.js"></script>
+  <script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="js/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
