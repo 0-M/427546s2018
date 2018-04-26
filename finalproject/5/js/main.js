@@ -250,7 +250,7 @@ function addLight(pos, color) {
 var light = new THREE.AmbientLight( 0x404040 ); // soft white light
 app.scene.add( light );
 
-light = addLight([25,5,65], 0x050505);
+light = addLight([25,5,-65], 0x050505);
 
 var count = 0;
 
@@ -265,7 +265,7 @@ function animate() {
     app.camera.rotation.y = parseFloat(app.cameraRotY);
     app.camera.rotation.z = parseFloat(app.cameraRotZ);
     // app.controls.update();
-    light.rotation.x -= 0.001;
+    light.rotation.x += 0.001;
 
 
 
