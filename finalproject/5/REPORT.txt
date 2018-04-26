@@ -1,6 +1,15 @@
 
 REPORT:
 
+Week Five:
+
+ - Added objects with animations
+ - Added shadows & multiple objects casting shadows
+ - Translated A and D controls to navigate XZ plane relative to perspective
+ - Started working on OrbitControls (better camera rotation implementation than mine)
+ - Created "sun"
+ - Made planes render double-sided
+ 
 
 Week Four:
 

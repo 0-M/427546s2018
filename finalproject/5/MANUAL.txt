@@ -12,7 +12,7 @@ Table of Contents:
         1) Slowly click and drag the rendering window. 
            This will point the camera where you drag.
         2) Use W and S keys to move forward and backward.
-        3) Use A and D keys to navigate the X-axis
+        3) Use A and D keys to move side to side
         3) Use Up and Down arrow keys to navigate the Y-axis
     B) Menu
         1) In the menu, open the Camera settings and adjust manually.
