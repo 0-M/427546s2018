@@ -1,0 +1,89 @@
+.renderWindow {
+    background: white;
+}
+.row {
+    color: black;
+}
+li h1 {
+    color: black;
+}
+#renderer {
+/*    width: 100%;
+    height: 100%;
+  */  text-align: center;
+}
+canvas { 
+    background-color: #a6d2ba;
+}
+
+#content {/*
+    width: 100%; 
+    height: 100%; */
+}
+
+
+.mybtn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+}
+
+body {
+    overflow: hidden;
+}
+
+#infotext {
+    color: black;
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+wrapper {
+    display: block;
+}
+
+#sidebar {
+    padding: 10px 50px 10px 10px;
+    min-width: 550px;
+    max-width: 960px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* top layer */
+    z-index: 9999;
+    transition: all 700ms;
+    background-color: rgba(150, 150, 150, 0.5);
+}
+.hidden-sidebar {
+    margin-left: -960px;
+}
+
+.overlay {
+    /* full screen */
+    width: 100%;
+    height: 100%;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 9998;
+}
+
+#dismiss {
+/*    width: 35px;
+    height: 35px;
+  */  
+  position: absolute;
+    /* top right corner of the sidebar */
+    top: 10px;
+    right: 10px;
+    z-index: 10000;
+    
+}
+
