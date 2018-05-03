@@ -1,0 +1,42 @@
+Welcome! 
+
+
+Table of Contents:
+1. Exploring
+2. Adding 3D Objects
+3. Changing the Light
+
+
+1. Exploring
+
+    * RUN INTO THE SPINNING CUBE *
+          ** DO IT AGAIN **
+
+    A) Controls
+        1) Slowly click and drag the rendering window. 
+           This will point the camera where you drag.
+        2) Use W and S keys to move forward and backward.
+        3) Use A and D keys to move side to side
+        3) Use Up and Down arrow keys to navigate the Y-axis
+    B) Menu
+        1) In the menu, open the Camera settings and adjust manually.
+
+
+
+2. Adding 3D objects: 
+    1) Open the menu
+    2) Open "Shape Creator" 
+    3) Choose a Shape
+    4) Add parameters
+
+
+
+3. Changing the Light
+
+    See what the cube has to say about it.
+
+    If you disagree:
+        1) Open the menu
+        2) Open "Lights" box
+        3) Enter a hex RGB color code (#00ff00: green)
+
